@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出租人实务纠纷应对手册</title>
+    <style>
+        :root {
+            --deepseek-blue: #1e6fba;
+            --light-blue: #e8f4fd;
+            --medium-blue: #4a90e2;
+            --dark-blue: #0d47a1;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 导航菜单样式 */
+        .sidebar {
+            width: 280px;
+            background-color: var(--light-blue);
+            border-radius: 8px;
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar h2 {
+            color: var(--deepseek-blue);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--medium-blue);
+        }
+        
+        .nav-list {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 8px;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--deepseek-blue);
+            color: white;
+        }
+        
+        /* 内容区域样式 */
+        .content {
+            flex: 1;
+            margin-left: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+        }
+        
+        .section-title {
+            color: var(--deepseek-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--medium-blue);
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .question-header {
+            background-color: var(--light-blue);
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .question-header:hover {
+            background-color: #d4eaf7;
+        }
+        
+        .question-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+        
+        .toggle-icon {
+            color: var(--deepseek-blue);
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .question.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s;
+        }
+        
+        .question.active .answer {
+            padding: 20px;
+            max-height: 1000px;
+        }
+        
+        .simple-answer {
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .detail-answer {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+        }
+        
+        .detail-toggle {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--deepseek-blue);
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .detail-content {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .detail-content.show {
+            display: block;
+        }
+        
+        .risk-tip {
+            margin-top: 15px;
+            padding: 12px 15px;
+            background-color: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+        }
+        
+        .risk-tip strong {
+            color: #e65100;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+        }
+        
+        /* 回到顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--deepseek-blue);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航菜单 -->
+        <div class="sidebar">
+            <h2>目录导航</h2>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#section1" class="nav-link">一、合同成立与生效</a></li>
+                <li class="nav-item"><a href="#section2" class="nav-link">二、合同主体与标的物核查</a></li>
+                <li class="nav-item"><a href="#section3" class="nav-link">三、租赁相关费用的支付与收取</a></li>
+                <li class="nav-item"><a href="#section4" class="nav-link">四、房屋的装修与维修</a></li>
+                <li class="nav-item"><a href="#section5" class="nav-link">五、房屋的占有与使用</a></li>
+            </ul>
+        </div>
+        
+        <!-- 内容区域 -->
+        <div class="content">
+            <h1 style="color: var(--deepseek-blue); margin-bottom: 20px;">出租人实务纠纷应对手册</h1>
+            
+            <!-- 第一部分：合同成立与生效 -->
+            <div id="section1" class="section">
+                <h2 class="section-title">一、合同成立与生效</h2>
+                
+                <!-- Q1 -->
+                <div class="question">
+                    <div class="question-header">
+                        <h3 class="question-title">Q1：签了租赁合同就一定能生效吗？</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="answer">
+                        <div class="simple-answer">
+                            <strong>简答：</strong> 不一定。签合同仅代表合同成立，成立≠生效，生效需满足法定（未违反强制性规定）或约定条件（如押金到账），不满足的可能不生效。
+                        </div>
+                        <div class="detail-toggle">点击查看详细解释</div>
+                        <div class="detail-content">
+                            <p><strong>详细回答：</strong></p>
+                            <ul>
+                                <li><strong>成立与生效的区别：</strong> 合同成立是"有没有合同"的事实判断，双方签字盖章后通常就成立；生效是"合同能不能产生法律效力"的法律判断，需满足额外条件。</li>
+                                <li><strong>常见不生效情形：</strong>
+                                    <ul>
+                                        <li>内容违法：违反法律、行政法规强制性规定，比如出租违法建筑的合同。</li>
+                                        <li>未达到生效条件：比如合同里写了"承租人交齐押金后本合同生效"，但承租人一直没交押金。</li>
+                                        <li>未到生效时间：比如合同约定"2025年12月1日起生效"，但还没到期。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>法律后果：</strong> 成立但不生效，若一方有违背诚信原则的行为（假借订立合同，恶意进行磋商；故意隐瞒与订立合同有关的重要事实或者提供虚假情况等）给另一方造成损失的，则承担缔约过失责任（如赔偿对方准备签约的合理损失，如装修设计费用等）；生效后违约，承担违约责任（如支付违约金、赔偿租金损失）。</li>
+                            </ul>
+                            <div class="risk-tip">
+                                <strong>风险提示：</strong> 签合同前要确认租赁物合法（如有无工规证、是否为过期临建），合同中明确生效条件和生效时间，避免签了合同却无法约束对方。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Q2 -->
+                <div class="question">
+                    <div class="question-header">
+                        <h3 class="question-title">Q2：承租人没交租赁保证金，合同能生效吗？</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="answer">
+                        <div class="simple-answer">
+                            <strong>简答：</strong> 看合同约定。若明确约定"交保证金后生效"，没交则合同一般不生效；如果出租人虽未收到保证金，但已提前交房且双方按约履行，可能视为合同已生效。
+                        </div>
+                        <div class="detail-toggle">点击查看详细解释</div>
+                        <div class="detail-content">
+                            <p><strong>详细回答：</strong></p>
+                            <ul>
+                                <li><strong>按约定判断：</strong> 双方在合同中写明"承租人支付租赁保证金后，本合同生效"，属于附生效条件的合同。只要承租人没交保证金，条件未达成，合同不生效。</li>
+                                <li><strong>例外情况：</strong> 若承租人没交保证金，但出租人主动交房让其使用，且从未以"没交保证金"为由提出异议，这种行为可能被认定为"用实际行动变更生效条件"，合同会被判定生效，出租人再以"没交保证金"为由拒履行义务（如修房子）或想随意收回房屋，可能构成违约。</li>
+                                <li><strong>其他后果：</strong> 如果承租人欠租，出租人起诉要求支付租金时，法院一般不会支持"先补缴保证金再付租金"的主张，即保证金没有及时收可能就收不回来。</li>
+                            </ul>
+                            <div class="risk-tip">
+                                <strong>风险提示：</strong> 若约定"交保证金生效"，承租人没交时，不要轻易交房；若已交房，需及时书面提醒承租人补交保证金并明确"不补交合同仍然未生效"，避免被认定为默认生效。另外，若第三人代付保证金，却缺乏承租人出具的书面代付款声明或证明文件予以追认的，将无法证明该笔代付押金对应的合同义务已履行，且会增加退还不当得利的风险，导致租赁合同缺乏有效担保。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多问题... -->
+                
+            </div>
+            
+            <!-- 第二部分：合同主体与标的物核查 -->
+            <div id="section2" class="section">
+                <h2 class="section-title">二、合同主体与标的物核查</h2>
+                
+                <!-- Q1 -->
+                <div class="question">
+                    <div class="question-header">
+                        <h3 class="question-title">Q1：怎么核实和填写承租人的身份信息？</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="answer">
+                        <div class="simple-answer">
+                            <strong>简答：</strong> 需填写自然人承租人真实姓名和身份证号，留存身份证复印件；需填写企业承租人全称和统一社会信用代码，留存法定代表人身份证复印件、营业执照复印件、被授权人信息等，并对企业资信情况进行必要核查。承租人拒绝提供身份证明的，不应出租。
+                        </div>
+                        <div class="detail-toggle">点击查看详细解释</div>
+                        <div class="detail-content">
+                            <p><strong>详细回答：</strong></p>
+                            <ul>
+                                <li><strong>自然人承租人：</strong>
+                                    <ul>
+                                        <li>填写信息：合同中明确写清承租人的真实姓名、身份证号码，确保与身份证一致，避免"昵称""别名"；对于外籍人士，需填写与护照一致的姓名，同时应留存护照首页和有效签证页的复印件。</li>
+                                        <li>核查材料：要求承租人提供身份证/护照等证件原件核对，留存复印件（可在复印件上注明"仅用于房屋租赁使用"），防止用假身份证。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>企业承租人：</strong>
+                                    <ul>
+                                        <li>填写信息：写明、写全企业全称（与营业执照一致）、统一社会信用代码，以及法定代表人姓名、身份证号。</li>
+                                        <li>核查材料：收集营业执照、法定代表人身份证；若由授权代表签约，还需法定代表人身份证明书、授权委托书和被授权人身份证，所有材料留存复印件，并核对原件。</li>
+                                        <li>基础资信查询：登录"国家企业信用信息公示系统"等企业信息公示网站，查询企业是否有主体资格问题以及经营异常（如列入失信名单、被吊销执照、已注销、高额被执行案件等），避免租给有信用风险的企业。对于整租大宗交易客户或承租作特殊业态经营（如酒店、公寓、学校）的，还应核查其经营范围、所需资质、履约能力（如股东背景、实缴出资情况）等。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>通用要求：</strong> 无论自然人还是企业，若承租人拒绝提供身份证明的，不应签约，防止后续无法追溯责任（如欠租后找不到人）。</li>
+                            </ul>
+                            <div class="risk-tip">
+                                <strong>风险提示：</strong> 不要仅凭口头告知填写身份信息，必须核对原件；企业承租人若变更法定代表人或授权代表，要及时更新材料。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多问题... -->
+                
+            </div>
+            
+            <!-- 第三部分：租赁相关费用的支付与收取 -->
+            <div id="section3" class="section">
+                <h2 class="section-title">三、租赁相关费用的支付与收取</h2>
+                
+                <!-- Q1 -->
+                <div class="question">
+                    <div class="question-header">
+                        <h3 class="question-title">Q1：出租人能全额没收租赁保证金吗？</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="answer">
+                        <div class="simple-answer">
+                            <strong>简答：</strong> 看合同约定和违约程度。合同明确约定了没收的情形，且承租人确实有合同约定的违约行为（如擅自转租、欠租超期），可以没收；轻微违约或保证金过高，则诉讼中可能被法院认定为违约金过高，从而调减没收的数额。
+                        </div>
+                        <div class="detail-toggle">点击查看详细解释</div>
+                        <div class="detail-content">
+                            <p><strong>详细回答：</strong></p>
+                            <ul>
+                                <li><strong>可全额没收的情况：</strong>
+                                    <ul>
+                                        <li>合同有明确约定：比如合同明确约定"承租人未经同意擅自转租、拖欠租金累计超过30天、损坏房屋主体结构的，出租人有权全额没收租赁保证金"。</li>
+                                        <li>承租人的违约行为符合约定情形：比如承租人确实擅自转租，或欠租超过30天的，出租人可依约全额没收。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>存在风险的情况：</strong>
+                                    <ul>
+                                        <li>轻微违约：比如承租人延迟1天交租，或轻微损坏设施等，因未达到合同约定的"没收保证金"条件，不能全额没收，但可根据合同约定要求承租人赔偿维修费用或支付违约金。</li>
+                                        <li>保证金过高：若保证金金额远超过出租人实际损失，承租人可要求法院或仲裁机构减少没收金额，法院可能会按"损失+30%"的标准调整总赔偿数额。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="risk-tip">
+                                <strong>风险提示：</strong> 合同中要明确"哪些违约情形可没收保证金"，避免模糊表述（如"承租人违约可没收保证金"）；没收保证金前，书面告知承租人违约事实和没收依据，留存证据，避免后续被承租人主张出租人无依据"单方擅自没收"。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多问题... -->
+                
+            </div>
+            
+            <!-- 第四部分：房屋的装修与维修 -->
+            <div id="section4" class="section">
+                <h2 class="section-title">四、房屋的装修与维修</h2>
+                
+                <!-- Q1 -->
+                <div class="question">
+                    <div class="question-header">
+                        <h3 class="question-title">Q1：租赁合同无效，承租人装修的东西该怎么处理？</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="answer">
+                        <div class="simple-answer">
+                            <strong>简答：</strong> 分"是否形成附合"和"出租人是否同意用"来定，没附合的可拆走，附合的按过错分担损失，擅自装修的费用自己承担。
+                        </div>
+                        <div class="detail-toggle">点击查看详细解释</div>
+                        <div class="detail-content">
+                            <p><strong>详细回答：</strong></p>
+                            <ul>
+                                <li><strong>经出租人同意的装修：</strong>
+                                    <ul>
+                                        <li>未形成附合（如可搬走的家具、空调）：
+                                            <ul>
+                                                <li>出租人同意用：可折价归出租人，双方协商折价金额（如空调买时5000元，用了1年，折价3000元）。</li>
+                                                <li>出租人不同意用：承租人可拆走，但拆的时候不能损坏房屋（如拆空调不能破坏墙面），损坏了要恢复原状（如补墙）。</li>
+                                            </ul>
+                                        </li>
+                                        <li>已形成附合（如墙纸、吊顶）：
+                                            <ul>
+                                                <li>出租人同意用：折价归出租人，折价金额可找评估机构评估装修现值。出租人以与新承租人重新签订租赁合同的方式接收利用案涉物业的，也算用了。</li>
+                                                <li>出租人不同意用：双方按过错分担现值损失，比如出租人明知房屋违法还出租（主责），承租人没核实房屋合法性（次责），可能按7:3的比例分担损失。</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><strong>未经出租人同意的装修：</strong> 不管是否形成附合，费用都由承租人自己承担，出租人还可要求承租人恢复原状（如撕掉墙纸）或赔偿损失（如墙面损坏的维修费）。</li>
+                            </ul>
+                            <div class="risk-tip">
+                                <strong>风险提示：</strong> 合同中要明确"装修需经出租人书面同意"，避免承租人擅自装修；同意装修时，最好书面约定"合同无效后装修的处理方式"，减少后续纠纷。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多问题... -->
+                
+            </div>
+            
+            <!-- 第五部分：房屋的占有与使用 -->
+            <div id="section5" class="section">
+                <h2 class="section-title">五、房屋的占有与使用</h2>
+                
+                <!-- Q1 -->
+                <div class="question">
+                    <div class="question-header">
+                        <h3 class="question-title">Q1：如何应对承租人未按约定使用房屋致损</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="answer">
+                        <div class="simple-answer">
+                            <strong>简答：</strong> 要求承租人恢复原状、赔偿损失（包括直接损失和间接损失），严重的话可解除合同、没收保证金，全程要留证据。
+                        </div>
+                        <div class="detail-toggle">点击查看详细解释</div>
+                        <div class="detail-content">
+                            <p><strong>详细回答：</strong></p>
+                            <ul>
+                                <li><strong>常见应对措施：</strong>
+                                    <ul>
+                                        <li>要求恢复原状：若承租人擅自变动房屋结构（如拆承重墙）、扩建（如阳台加建），书面通知承租人在合理期限内（如15天）恢复原状，可附上"恢复方案"（如找有资质的公司修复承重墙）。</li>
+                                        <li>要求赔偿损失：
+                                            <ul>
+                                                <li>直接损失：房屋损坏的维修费用（如墙面破损粉刷费2000元、家具损坏重置费5000元），需提供维修合同、发票、采购凭证等证据。</li>
+                                                <li>间接损失：因维修导致房屋无法出租的租金损失（如维修1个月，损失1个月租金5000元），需提供"原本可出租的证明"（如之前的租金合同、租客询价记录）。</li>
+                                            </ul>
+                                        </li>
+                                        <li>解除合同并清退：若承租人严重违约（如损坏主体结构且拒不修复），或经书面催告仍不整改，可按合同约定解除合同，要求承租人腾退房屋，没收租赁保证金（若合同有约定）。</li>
+                                    </ul>
+                                </li>
+                                <li><strong>证据留存：</strong>
+                                    <ul>
+                                        <li>拍取房屋损坏前后的对比照片、视频，明确损坏程度。</li>
+                                        <li>保存与承租人的沟通记录（如微信、邮件、书面通知），证明承租人知晓损坏事实和整改要求。</li>
+                                        <li>收集维修费用、租金损失的相关凭证，方便主张赔偿。</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <div class="risk-tip">
+                                <strong>风险提示：</strong> 发现房屋损坏后，不要拖延处理，避免损坏扩大（如小裂缝变成大裂缝），导致损失增加；不要自行维修后再找承租人报销，最好先通知承租人，协商维修方案，避免承租人不认账。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 更多问题... -->
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- 回到顶部按钮 -->
+    <div class="back-to-top">↑</div>
+
+    <script>
+        // 问题展开/收起功能
+        document.querySelectorAll('.question-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const question = this.parentElement;
+                question.classList.toggle('active');
+            });
+        });
+        
+        // 详细解释展开/收起功能
+        document.querySelectorAll('.detail-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止事件冒泡
+                const detailContent = this.nextElementSibling;
+                detailContent.classList.toggle('show');
+                this.textContent = detailContent.classList.contains('show') ? '收起详细解释' : '点击查看详细解释';
+            });
+        });
+        
+        // 导航菜单点击效果
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                // 移除所有活动状态
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // 添加当前活动状态
+                this.classList.add('active');
+                
+                // 滚动到目标区域
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+        
+        // 回到顶部功能
+        const backToTopBtn = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 响应式导航菜单高亮
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSection = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
