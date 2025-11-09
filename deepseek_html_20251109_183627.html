@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出租人纠纷应对手册</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --light-color: #dbeafe;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f0f9ff; padding: 15px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: var(--primary-color); text-align: center; margin: 20px 0; }
+        .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section h2 { color: var(--secondary-color); border-bottom: 2px solid var(--light-color); padding-bottom: 10px; margin-bottom: 15px; }
+        .question { margin: 15px 0; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; }
+        .question-header { background: var(--light-color); padding: 12px 15px; cursor: pointer; }
+        .question-header h3 { color: var(--primary-color); font-size: 16px; margin: 0; }
+        .answer { padding: 0 15px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+        .question.active .answer { max-height: 1000px; padding: 15px; }
+        .simple-answer { font-weight: bold; color: var(--primary-color); margin-bottom: 10px; }
+        .detailed-answer { display: none; margin-top: 10px; }
+        .show-more { color: var(--secondary-color); background: none; border: none; cursor: pointer; margin: 8px 0; text-decoration: underline; }
+        .risk-tip { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 10px; margin-top: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>出租人实务纠纷应对手册</h1>
+        
+        <div class="section">
+            <h2>一、合同成立与生效</h2>
+            <div class="question">
+                <div class="question-header"><h3>Q1：签了租赁合同就一定能生效吗？</h3></div>
+                <div class="answer">
+                    <div class="simple-answer">不一定。签合同只是合同成立，生效还需满足法定或约定条件。</div>
+                    <button class="show-more">显示详细解析</button>
+                    <div class="detailed-answer">
+                        <p><strong>详细回答：</strong></p>
+                        <ul>
+                            <li><strong>成立与生效的区别：</strong>合同成立是"有没有合同"的事实判断；生效是"合同能不能产生法律效力"的法律判断。</li>
+                            <li><strong>常见不生效情形：</strong>违反法律强制性规定；约定了生效条件但未达成；约定了生效期限但期限没到。</li>
+                        </ul>
+                        <div class="risk-tip"><strong>风险提示：</strong>签合同前要确认租赁物合法，明确生效条件和期限。</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-header"><h3>Q2：承租人没交租赁保证金，合同能生效吗？</h3></div>
+                <div class="answer">
+                    <div class="simple-answer">看约定。若明确约定"交保证金后生效"，没交则合同一般不生效。</div>
+                    <button class="show-more">显示详细解析</button>
+                    <div class="detailed-answer">
+                        <p><strong>详细回答：</strong></p>
+                        <ul>
+                            <li><strong>按约定判断：</strong>双方在合同中写明"承租人支付租赁保证金后，本合同生效"，属于附生效条件的合同。</li>
+                            <li><strong>例外情况：</strong>若出租人主动交房让其使用且未提异议，可能视为合同已生效。</li>
+                        </ul>
+                        <div class="risk-tip"><strong>风险提示：</strong>若约定"交保证金生效"，承租人没交时不要轻易交房。</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 更多问题... -->
+        </div>
+        
+        <div class="section">
+            <h2>二、合同主体与标的物核查</h2>
+            <!-- 问题内容... -->
+        </div>
+    </div>
+
+    <script>
+        // 问题展开/收起
+        document.querySelectorAll('.question-header').forEach(header => {
+            header.addEventListener('click', function() {
+                this.parentElement.classList.toggle('active');
+            });
+        });
+        
+        // 显示详细解析
+        document.querySelectorAll('.show-more').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const detailed = this.nextElementSibling;
+                if (detailed.style.display === 'block') {
+                    detailed.style.display = 'none';
+                    this.textContent = '显示详细解析';
+                } else {
+                    detailed.style.display = 'block';
+                    this.textContent = '隐藏详细解析';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
